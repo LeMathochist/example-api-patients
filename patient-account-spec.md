@@ -72,10 +72,10 @@
 
 ### Response body definitions
 
-- Status code: 201 // ReST specs say use 201
+- Status code: 200
 - Status messages: OK
 - Content type: application/json
-- Schema:id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
+- Schema: id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
 <!-- End Retrieve patient by ID -->
 
 <!-- Start Create new patient account -->
