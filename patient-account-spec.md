@@ -54,6 +54,58 @@
 - Schema: code_error, message
 <!-- End Retrieve All -->
 
+<!-- Start Create new patient account -->
+
+## Path Create a new
+
+- Name: **patient**
+- HTTP operation: post
+- Summary: Create a mew patient account
+- Security: BearerAuth
+
+<!-- bc we created sth, should send that data back! -->
+
+### Request body definitions
+
+<!-- dont forget the request handling codes -->
+
+- Content type: application/json
+- Required: all
+- Schema: id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
+
+### Response body definitions
+
+- Status code: 201
+- Status messages: CREATED
+- Content type: application/json
+- Schema: id, email
+
+---
+
+<!-- Because Requests can be malformed in someway -->
+
+- Status code: 400
+- Status messages: Bad request // send malformed, incorrect, or incomplete info
+- Content type: application/json
+- Schema: code_error, message
+
+---
+
+- Status code: 401
+- Status messages: Unauthorized
+- Content type: application/json
+- Schema: code_error, message
+
+---
+
+- Status code: 500
+- Status messages: Server error
+- Content type: application/json
+- Schema: code_error, message
+<!-- End Create New User account -->
+
+---
+
 <!-- Start Retrieve patient by ID -->
 
 ## Path Retrieve one patient
@@ -98,58 +150,6 @@
 - Content type: application/json
 - Schema: code_error, message
 <!-- End Retrieve patient by ID -->
-
-<!-- Start Create new patient account -->
-
-## Path Create a new
-
-- Name: **patient**
-- HTTP operation: post
-- Summary: Create a mew patient account
-- Security: BearerAuth
-
-<!-- bc we created sth, should send that data back! -->
-
-### Request body definitions
-
-<!-- dont forget the request handling codes -->
-
-- Content type: application/json
-- Required: all
-- Schema: id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
-
-### Response body definitions
-
-- Status code: 201
-- Status messages: CREATED
-- Content type: application/json
-- Schema:id, email
-
----
-
-<!-- Because Requests can be malformed in someway -->
-
-- Status code: 400
-- Status messages: Bad request // send malformed, incorrect, or incomplete info
-- Content type: application/json
-- Schema: code_error, message
-
----
-
-- Status code: 401
-- Status messages: Unauthorized
-- Content type: application/json
-- Schema: code_error, message
-
----
-
-- Status code: 500
-- Status messages: Server error
-- Content type: application/json
-- Schema: code_error, message
-<!-- End Retrieve all -->
-
----
 
 <!-- Start Update Patient by ID -->
 
