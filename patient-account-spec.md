@@ -131,15 +131,15 @@
 
 ---
 
-- Status code: 404
-- Status messages: Not Found
+- Status code: 401
+- Status messages: Unauthorized
 - Content type: application/json
 - Schema: code_error, message
 
 ---
 
-- Status code: 401
-- Status messages: Unauthorized
+- Status code: 404
+- Status messages: Not Found
 - Content type: application/json
 - Schema: code_error, message
 
@@ -210,70 +210,10 @@
 - Status code: 500
 - Status messages: Server error
 - Content type: application/json
-- Schema: code_error, messa**ge**
-<!-- End Update Patient by ID -->
-
-## Path Update one patient by ID
-
-- Name: patient/{id}
-- HTTP operation: put
-- Summary: Update a patient by ID
-- Security: BearerAuth
-
-### Parameters definitions
-
-- Name: id
-- Where: path
-- Required: true
-- Schema: integer
-
-### Request body definition
-
-<!-- Copied from 'create patient' -->
-
-- Content type: application/json
-- Required: all
-- Schema: firstName, lastName, dob, gender, phoneNumber and user(id, email)
-
-### Response body definition
-
-- Status code: 202
-- Status messages: ACCEPTED
-- Content type: application/json
-- Schema:id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
-
----
-
-<!-- Because Requests can be malformed, incorrect, incomplete, etc -->
-
-- Status code: 404
-- Status messages: Not Found
-- Content type: application/json
-- Schema: code_error, message
-
----
-
-- Status code: 400
-- Status messages: Bad request
-- Content type: application/json
-- Schema: code_error, message
-
----
-
-- Status code: 401
-- Status messages: Unauthorized
-- Content type: application/json
-- Schema: code_error, message
-
----
-
-- Status code: 500
-- Status messages: Server error
-- Content type: application/json
 - Schema: code_error, message
 <!-- End Update Patient by ID -->
 
-<!-- Delete Patient by -->
+<!-- Start Delete Patient by -->
 
 ## Path Delete one patient by ID
 
