@@ -4,7 +4,7 @@
 
 - Title: Progress Account
 - Description: Progress Account API specification outlines all that allows
-  progress to maintain a Progress account.
+  patient progress to be followed in a Progress account.
 
 ## Servers
 
