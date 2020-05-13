@@ -3,8 +3,8 @@
 ## General Information
 
 - Title: Patient Account
-- Description: Patient Account specification should outline all that allows user
-  to maintain a patient account.
+- Description: Patient Account API specification outlines all that allows user
+  to maintain a User account.
 
 ## Servers
 
