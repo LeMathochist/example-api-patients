@@ -105,7 +105,7 @@
 
 - Name: **patient**
 - HTTP operation: post
-- Summary
+- Summary: Create a mew patient account
 - Security: BearerAuth
 
 <!-- bc we created sth, should send that data back! -->
