@@ -59,7 +59,7 @@
 
 - Name: **user**
 - HTTP operation: post
-- Summary
+- Summary: Create a new user
 - Security: BearerAuth
 
 <!-- bc we created sth, should send that data back! -->
@@ -125,6 +125,27 @@
 - Status messages: OK
 - Content type: application/json
 - Schema: id, email
+
+---
+
+- Status code: 401
+- Status messages: Unauthorized
+- Content type: application/json
+- Schema: code_error, message
+
+---
+
+- Status code: 404
+- Status messages: Not Found
+- Content type: application/json
+- Schema: code_error, message
+
+---
+
+- Status code: 500
+- Status messages: Server error
+- Content type: application/json
+- Schema: code_error, message
 <!-- End Retrieve user by ID -->
 
 <!-- Start Create new user account -->
