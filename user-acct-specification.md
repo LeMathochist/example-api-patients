@@ -3,8 +3,8 @@
 ## General Information
 
 - Title: User Account
-- Description: Patient Account specification should outline all that allows user
-  to maintain a patient account.
+- Description: User Account API specification outlines all that allows user to
+  maintain a User account.
 
 ## Servers
 
@@ -19,13 +19,14 @@
 - bearerFormat: JWT
 
 <!-- Define Paths -->
+
 <!-- Start Retrieve all -->
 
 ## Path Retrieve all
 
-- Name: patient
+- Name: users
 - HTTP operation: get
-- Summary: Retrieve all patient
+- Summary: Retrieve all users
 - Security: BearerAuth
 
 ### Response body definitions
@@ -33,8 +34,7 @@
 - Status code: 200
 - Status messages: OK
 - Content type: application/json
-- Schema: array{id, firstName, lastName, dob, gender, phoneNumber and user(id,
-  email)}
+- Schema: array{id, email}
 
 <!-- note on schema: note that one of the parameters, 'user' i
   parametrized. // this gives us link to individual user account -->
@@ -52,15 +52,64 @@
 - Status messages: Server error
 - Content type: application/json
 - Schema: code_error, message
-<!-- End Retrieve All -->
+  <!-- End Retrieve All -->
+  <!-- Start Create new user account -->
 
-<!-- Start Retrieve patient by ID -->
+## Path Create a new
 
-## Path Retrieve one patient
+- Name: **user**
+- HTTP operation: post
+- Summary
+- Security: BearerAuth
 
-- Name: patient/{id}
+<!-- bc we created sth, should send that data back! -->
+
+### Request body definitions
+
+- Content type: application/json
+- Required: all
+- Schema: email and password
+
+### Response body definitions
+
+- Status code: 201
+- Status messages: CREATED
+- Content type: application/json
+- Schema:id, email
+
+---
+
+<!-- Because Requests can be malformed in someway -->
+
+- Status code: 400
+- Status messages: Bad request // send malformed, incorrect, or incomplete info
+- Content type: application/json
+- Schema: code_error, message
+
+---
+
+- Status code: 401
+- Status messages: Unauthorized
+- Content type: application/json
+- Schema: code_error, message
+
+---
+
+- Status code: 500
+- Status messages: Server error
+- Content type: application/json
+- Schema: code_error, message
+<!-- End Create New User-->
+
+---
+
+<!-- Start Retrieve user by ID -->
+
+## Path Retrieve one user
+
+- Name: user/{id}
 - HTTP operation: get
-- Summary: Get a patient by ID
+- Summary: Get a user by ID
 - Security: BearerAuth
 
 ### Parameters definitions
@@ -72,17 +121,17 @@
 
 ### Response body definitions
 
-- Status code: 201 // ReST specs say use 201
+- Status code: 200
 - Status messages: OK
 - Content type: application/json
-- Schema:id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
-<!-- End Retrieve patient by ID -->
+- Schema: id, email
+<!-- End Retrieve user by ID -->
 
-<!-- Start Create new patient account -->
+<!-- Start Create new user account -->
 
 ## Path Create a new
 
-- Name: **patient**
+- Name: **user**
 - HTTP operation: post
 - Summary
 - Security: BearerAuth
@@ -124,17 +173,17 @@
 - Status messages: Server error
 - Content type: application/json
 - Schema: code_error, message
-<!-- End Retrieve all -->
+<!-- End Create New User-->
 
 ---
 
-<!-- Start Update Patient by ID -->
+<!-- Start Update User by ID -->
 
-## Path Update one patient by ID
+## Path Update one user by ID
 
-- Name: patient/{id}
+- Name: user/{id}
 - HTTP operation: put
-- Summary: Update a patient by ID
+- Summary: Update a user by ID
 - Security: BearerAuth
 
 ### Parameters definitions
@@ -146,7 +195,7 @@
 
 ### Request body definition
 
-<!-- Copied from 'create patient' -->
+<!-- Copied from 'create user' -->
 
 - Content type: application/json
 - Required: all
@@ -188,13 +237,13 @@
 - Status messages: Server error
 - Content type: application/json
 - Schema: code_error, message
-<!-- End Update Patient by ID -->
+<!-- End Update User by ID -->
 
-## Path Update one patient by ID
+## Path Update one user by ID
 
-- Name: patient/{id}
+- Name: user/{id}
 - HTTP operation: put
-- Summary: Update a patient by ID
+- Summary: Update a user by ID
 - Security: BearerAuth
 
 ### Parameters definitions
@@ -206,7 +255,7 @@
 
 ### Request body definition
 
-<!-- Copied from 'create patient' -->
+<!-- Copied from 'create user' -->
 
 - Content type: application/json
 - Required: all
@@ -248,15 +297,15 @@
 - Status messages: Server error
 - Content type: application/json
 - Schema: code_error, message
-<!-- End Update Patient by ID -->
+<!-- End Update User by ID -->
 
-<!-- Delete Patient by ID -->
+<!-- Delete User by ID -->
 
-## Path Delete one patient by ID
+## Path Delete one user by ID
 
-- Name: patient/{id}
+- Name: user/{id}
 - HTTP operation: delete
-- Summary: delete a patient by ID
+- Summary: delete a user by ID
 - Security: BearerAuth
 
 ### Parameters definitions
@@ -303,4 +352,4 @@
 - Status messages: Server error
 - Content type: application/json
 - Schema: code_error, message
-<!-- End Delete Patient by ID -->
+<!-- End Delete User by ID -->
