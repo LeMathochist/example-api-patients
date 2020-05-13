@@ -75,7 +75,28 @@
 - Status code: 200
 - Status messages: OK
 - Content type: application/json
-- Schema: id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
+- Schema: id, email
+
+---
+
+- Status code: 404
+- Status messages: Not Found
+- Content type: application/json
+- Schema: code_error, message
+
+---
+
+- Status code: 401
+- Status messages: Unauthorized
+- Content type: application/json
+- Schema: code_error, message
+
+---
+
+- Status code: 500
+- Status messages: Server error
+- Content type: application/json
+- Schema: code_error, message
 <!-- End Retrieve patient by ID -->
 
 <!-- Start Create new patient account -->
@@ -189,7 +210,7 @@
 - Status code: 500
 - Status messages: Server error
 - Content type: application/json
-- Schema: code_error, message
+- Schema: code_error, messa**ge**
 <!-- End Update Patient by ID -->
 
 ## Path Update one patient by ID
