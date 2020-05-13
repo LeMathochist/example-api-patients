@@ -220,74 +220,14 @@
 
 - Content type: application/json
 - Required: all
-- Schema: firstName, lastName, dob, gender, phoneNumber and user(id, email)
+- Schema: email, password
 
 ### Response body definition
 
 - Status code: 202
 - Status messages: ACCEPTED
 - Content type: application/json
-- Schema:id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
-
----
-
-<!-- Because Requests can be malformed, incorrect, incomplete, etc -->
-
-- Status code: 404
-- Status messages: Not Found
-- Content type: application/json
-- Schema: code_error, message
-
----
-
-- Status code: 400
-- Status messages: Bad request
-- Content type: application/json
-- Schema: code_error, message
-
----
-
-- Status code: 401
-- Status messages: Unauthorized
-- Content type: application/json
-- Schema: code_error, message
-
----
-
-- Status code: 500
-- Status messages: Server error
-- Content type: application/json
-- Schema: code_error, message
-<!-- End Update User by ID -->
-
-## Path Update one user by ID
-
-- Name: user/{id}
-- HTTP operation: put
-- Summary: Update a user by ID
-- Security: BearerAuth
-
-### Parameters definitions
-
-- Name: id
-- Where: path
-- Required: true
-- Schema: integer
-
-### Request body definition
-
-<!-- Copied from 'create user' -->
-
-- Content type: application/json
-- Required: all
-- Schema: firstName, lastName, dob, gender, phoneNumber and user(id, email)
-
-### Response body definition
-
-- Status code: 202
-- Status messages: ACCEPTED
-- Content type: application/json
-- Schema:id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
+- Schema:id, email
 
 ---
 
