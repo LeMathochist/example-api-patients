@@ -97,8 +97,8 @@
 
 ### Response body definitions
 
-- Status code: 200
-- Status messages: OK
+- Status code: 201
+- Status messages: CREATED
 - Content type: application/json
 - Schema:id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
 
