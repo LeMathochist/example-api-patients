@@ -91,6 +91,8 @@
 
 ### Request body definitions
 
+<!-- dont forget the request handling codes -->
+
 - Content type: application/json
 - Required: all
 - Schema: id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
@@ -100,7 +102,7 @@
 - Status code: 201
 - Status messages: CREATED
 - Content type: application/json
-- Schema:id, firstName, lastName, dob, gender, phoneNumber and user(id, email)
+- Schema:id, email
 
 ---
 
