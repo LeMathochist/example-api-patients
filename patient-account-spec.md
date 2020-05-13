@@ -250,7 +250,7 @@
 - Schema: code_error, message
 <!-- End Update Patient by ID -->
 
-<!-- Delete Patient by ID -->
+<!-- Delete Patient by -->
 
 ## Path Delete one patient by ID
 
