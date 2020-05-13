@@ -24,9 +24,9 @@
 
 ## Path Retrieve all
 
-- Name: progresss
+- Name: progress-all
 - HTTP operation: get
-- Summary: Retrieve all progresss
+- Summary: Retrieve all progress accounts
 - Security: BearerAuth
 
 ### Response body definitions
@@ -34,9 +34,10 @@
 - Status code: 200
 - Status messages: OK
 - Content type: application/json
-- Schema: array{id, email}
+- Schema: array{id, dateProgress, headCircumference, height, weight and
+  patient(id, firstName, lastName, dob, gender, phoneNumber)}
 
-<!-- note on schema: note that one of the parameters, 'progress' i
+<!-- note on schema: note that one of the parameters, 'progress' is
   parametrized. // this gives us link to individual progress account -->
 
 ---
@@ -68,14 +69,16 @@
 
 - Content type: application/json
 - Required: all
-- Schema: email and password
+- Schema: dateProgress, headCircumference, height, weight and patient(id,
+  firstName, lastName, dob, gender, phoneNumber)
 
 ### Response body definitions
 
 - Status code: 201
 - Status messages: CREATED
 - Content type: application/json
-- Schema:id, email
+- Schema: id, dateProgress, headCircumference, height, weight and patient(id,
+  firstName, lastName, dob, gender, phoneNumber)
 
 ---
 
@@ -124,7 +127,8 @@
 - Status code: 200
 - Status messages: OK
 - Content type: application/json
-- Schema: id, email
+- Schema: id, dateProgress, headCircumference, height, weight and patient(id,
+  firstName, lastName, dob, gender, phoneNumber)
 
 ---
 
@@ -222,14 +226,14 @@
 
 - Content type: application/json
 - Required: all
-- Schema: email, password
+- Schema: firstName, lastName, dob, gender, phoneNumber and progress(id, email)
 
 ### Response body definition
 
 - Status code: 202
 - Status messages: ACCEPTED
 - Content type: application/json
-- Schema:id, email
+- Schema: firstName, lastName, dob, gender, phoneNumber and progress(id, email)
 
 ---
 
