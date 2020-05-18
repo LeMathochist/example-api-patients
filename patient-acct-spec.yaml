@@ -11,7 +11,7 @@ servers:
     description: Developer Server
   - url: http://localhost/v1
     description: Production Server
-tags:
+tags: #5a
 # set the grouping of operations
   - name: patients
     description: Patient Account
@@ -20,14 +20,22 @@ paths:
   /patients:
     get: # 2
       summary: Retrieve all patients
+      description: Todo
       tags: # put this operation into the patients tag grouping
         - patients
       security:
         - BearerAuth
-      description: Returns a JSON object of all patient records
+      operationId: getAllPatients # 9
+      # description:  Issue # 3
 
       responses: # 3
-        '200':    # status code
+        200:    # status code
+          $ref: '#/components/responses/SuccessGetAll'
+          # Not create this. 
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/ServerError'
         # This one is repeated: define a 'component' schema
         # using a reference `$ref` 
           # description: Ok
@@ -37,16 +45,101 @@ paths:
           #       type: array
           #       items: 
           #         type: string
-          $ref: '#/components/responses/SuccessGetAll'
-          # Not create this. 
-        '401':
-          $ref: '#/components/responses/Unauthorized'
 
+  /patient:
+    post: # 
+      summary: Create a new patient
+      description: Todo
+      tags: # put this operation into the patients tag grouping
+        - patients
+      security:
+        - BearerAuth
+      operationId: createPatientAccount # 9
+      requestBody:
+        $ref: '#/components/requestBody/patientBody'
+
+      responses: # 3
+        201:    # status code
+          $ref: '#/components/responses/Created' # Todo: Make Created schema
+          # Not create this. 
+        400:
+          $ref: '#/components/responses/BadRequest' # Todo: Make Created schema
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /patient/{id}:
+    get: # 2
+      summary: Retrieve a patient by ID
+      description: Todo
+      tags: # put this operation into the patients tag grouping
+        - patients
+      security:
+        - BearerAuth
+      operationId: getPatientByID # 9
+      # description:  Issue # 3
+
+      responses: # 3
+        200:    # status code
+          $ref: '#/components/responses/Success'
+          # Not create this. 
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+        # This one is repeated: define a 'component' schema
+        # using a reference `$ref` 
+          # description: Ok
+          # content:
+          #   application/json:
+          #     schema: 
+          #       type: array
+          #       items: 
+          #         type: string
 
 # Components
 components:
-  schemas:
-    body_response_error:
+  schemas: # 
+    requestBody:
+      required:    
+        - firstName
+        - lastName 
+        - dateBirth               
+        - gender
+        - phoneNumber
+        - user
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 3
+          example: 'James'
+        lastName:
+          type: string
+          minLength: 3
+          example: 'Hemings'
+        dob:
+          type: string
+          format: date
+          example: 01/01/1765
+        gender:
+          type: string
+          example: M
+          enum:
+            - M
+            - F
+        phoneNumber:
+          type: number
+          forat: int32
+          example: 555-123-4567
+        user:
+          $ref: '#/components/schemas/user'
+        # end 'patient'
+      # being 'user'
+    body_response_error: # 8
       required:
         - code_error
         - message
@@ -60,7 +153,7 @@ components:
         message:
           type: string
           example: message_to_show_from_server
-    patient:
+    patient: # 4
       required:    
         - id  
         - firstName
@@ -101,7 +194,7 @@ components:
           $ref: '#/components/schemas/user'
         # end 'patient'
       # being 'user'
-    user:
+    user: # 5
       required:
         - id
         - email
@@ -116,17 +209,49 @@ components:
           format: email
           minLengh: 10
           example: 'james.hemings@piecemeal.io'
+  
+  requestBody:
+    patientBody:
+      description: Patient JSON object required
+      content:
+        application/json:
+          schema: 
+            $ref: '#/components/schemas/requestBody'
+  responses: # 6
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
 
-  responses:
-    SuccessGetAll:
-      description: Ok # same as "status message in spec"
+    Created:
+      description: Created # same as "status message in spec"
       content:
         application/json:
           schema:
             # this refers to patient schema
             $ref: '#/components/schemas/patient'
-    Unauthorized:
+
+    SuccessGetAll:
+      description: Ok # same as "status message in spec"
+      content:
+        application/json:
+          schema:
+            type: array # to return an array
+            items:
+              oneOf:
+              # this refers to patient schema
+                - $ref: '#/components/schemas/patient'
+                - $ref: '#/components/schemas/patient'
+    Unauthorized: #7
       description: Unuathorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
+    ServerError: #8 
+      description: Server error
       content:
         application/json:
           schema:
