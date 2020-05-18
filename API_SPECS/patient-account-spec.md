@@ -23,9 +23,9 @@
 
 ## Path Retrieve all
 
-- Name: patient
+- Name: patients
 - HTTP operation: get
-- Summary: Retrieve all patient
+- Summary: Retrieve all patients
 - Security: BearerAuth
 
 ### Response body definitions
