@@ -79,7 +79,14 @@ paths:
         - BearerAuth
       operationId: getPatientByID # 9
       # description:  Issue # 3
-
+      parameters:
+        - name: id # same id as in patient id
+        - in: path  # where to find the parameter
+        description: Patient ID
+        required: true
+        schema:
+          type: integer
+          format: int64
       responses: # 3
         200:    # status code
           $ref: '#/components/responses/Success'
@@ -217,13 +224,29 @@ components:
         application/json:
           schema: 
             $ref: '#/components/schemas/requestBody'
+  
   responses: # 6
+    NotFound:
+      BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
+
     BadRequest:
       description: Bad request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/body_response_error'
+
+    Success:
+      description: Ok # same as "status message in spec"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/patient'
 
     Created:
       description: Created # same as "status message in spec"
