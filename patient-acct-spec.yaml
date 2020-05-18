@@ -1,1 +1,101 @@
 # patient-acct-spec.yaml
+
+openapi: 3.0.0
+info:
+  title: Patient-Account # 0
+  description: Patient Account API specification is an outline of all functionality that allows a user to maintain an account. 
+  version: 0.1.0
+servers:
+# the dash '-' indicates an array
+  - url: http://localhost:8080/v1 # 1
+    description: Developer Server
+  - url: http://localhost/v1
+    description: Production Server
+paths:
+  /patients:
+    get: # 2
+      summary: Retrieve all patients
+      description: Returns a JSON object of all patient records
+      responses: # 3
+        '200':    # status code
+        # This one is repeated: define a 'component' schema
+        # using a reference `$ref` 
+          # description: Ok
+          # content:
+          #   application/json:
+          #     schema: 
+          #       type: array
+          #       items: 
+          #         type: string
+          $ref: '#/components/responses/SuccessGetAll'
+          # Not create this. 
+
+# Components
+components:
+  schemas:
+    patient:
+      # define what is required 
+      - id
+      - firstName
+      - lastName
+      - dob
+      - gender
+      - phoneNumber
+      - user
+    type: object # see data models: schema
+    properies:
+      id:
+        type: integer
+        format: int64
+        example: 1
+      firstName:
+        type: string
+        minLength: 3
+        example: 'James'
+      lastName:
+        type: string
+        minLength: 3
+        example: 'Hemings'
+      dob:
+        type: string
+        format: date
+        example: 01/01/1765
+      gender:
+        type: string
+        example: M
+        enum:
+          - M
+          - F
+      phoneNumner:
+        type: number
+        forat: int32
+        example: 555-123-4567
+      user:
+        # don't repeat. Will be a schema
+        $ref: '#/components/schemas/user'
+      # end 'patient'
+    # being 'user'
+    user:
+      required:
+        - id
+        - email
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        email:
+          type: string
+          format: email
+          minLengh: 10
+          example: 'james.hemings@piecemeal.io'
+  # Define Response schema
+  responses:
+    SuccessGetAll:
+      description: Ok # same as "status message in spec"
+      content:
+        application/json:
+          schema:
+            # this refers to patient schema
+            $ref: '#/components/schemas/patient'
