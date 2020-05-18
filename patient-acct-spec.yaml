@@ -11,13 +11,21 @@ servers:
     description: Developer Server
   - url: http://localhost/v1
     description: Production Server
+tags:
+# set the grouping of operations
+  - name: patients
+    description: Patient Account
+
 paths:
   /patients:
     get: # 2
       summary: Retrieve all patients
+      tags: # put this operation into the patients tag grouping
+        - patients
       security:
         - BearerAuth
       description: Returns a JSON object of all patient records
+
       responses: # 3
         '200':    # status code
         # This one is repeated: define a 'component' schema
@@ -31,10 +39,27 @@ paths:
           #         type: string
           $ref: '#/components/responses/SuccessGetAll'
           # Not create this. 
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
 
 # Components
 components:
   schemas:
+    body_response_error:
+      required:
+        - code_error
+        - message
+      type:
+        object
+      properties:
+        code_error:
+          type: integer
+          format: int64
+          example: 123
+        message:
+          type: string
+          example: message_to_show_from_server
     patient:
       required:    
         - id  
@@ -45,7 +70,7 @@ components:
         - phoneNumber
         - user
       type: object
-      properies:
+      properties:
         id:
           type: integer
           format: int64
@@ -91,7 +116,7 @@ components:
           format: email
           minLengh: 10
           example: 'james.hemings@piecemeal.io'
-  # Define Response schema
+
   responses:
     SuccessGetAll:
       description: Ok # same as "status message in spec"
@@ -100,6 +125,12 @@ components:
           schema:
             # this refers to patient schema
             $ref: '#/components/schemas/patient'
+    Unauthorized:
+      description: Unuathorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
   securitySchemes:
     BearerAuth:
       type: http
