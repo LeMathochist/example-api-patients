@@ -81,12 +81,12 @@ paths:
       # description:  Issue # 3
       parameters:
         - name: id # same id as in patient id
-        - in: path  # where to find the parameter
-        description: Patient ID
-        required: true
-        schema:
-          type: integer
-          format: int64
+          in: path  # where to find the parameter
+          description: Patient ID
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses: # 3
         200:    # status code
           $ref: '#/components/responses/Success'
@@ -106,7 +106,33 @@ paths:
           #       type: array
           #       items: 
           #         type: string
-
+    put: # 2
+      summary: Update a patient by ID
+      description: Todo
+      tags: # put this operation into the patients tag grouping
+        - patients
+      security:
+        - BearerAuth
+      operationId: updatePatientByID # 9
+      # description:  Issue # 3
+      parameters:
+        - name: id # same id as in patient id
+          in: path  # where to find the parameter
+          description: Patient ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses: # 3
+        202:    # status code
+          $ref: '#/components/responses/Accepted'
+          # Not create this. 
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
 # Components
 components:
   schemas: # 
