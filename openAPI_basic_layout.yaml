@@ -24,3 +24,22 @@ paths:
                 type: array
                 items: 
                   type: string
+
+
+components:
+  schemas:
+    patient:
+    # define what is required 
+    - id
+    - firstName
+    - lastName
+    - dob
+    - gender
+    - phoneNumber
+    - user
+  type: object # see data models: schema
+    proteries:
+      id:
+        type: integer
+        format: int64
+        example: 1
