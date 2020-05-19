@@ -3,8 +3,8 @@
 
 openapi: 3.0.0
 info:
-  title: User-Account # 0
-  description: User Account API specification is an outline of all functionality that allows a user to maintain an account. 
+  title: Progress-Account # 0
+  description: Progress Account API specification is an outline of all functionality that allows a progress to maintain an account. 
   version: 0.1.0
 servers:
 # the dash '-' indicates an array
@@ -22,7 +22,7 @@ paths:
     get: # 2
       summary: Retrieve all progress-reports
       description: Todo
-      tags: # put this operation into the users tag grouping
+      tags: # put this operation into the progress-all tag grouping
         - progress-all
       security:
         - BearerAuth
@@ -38,12 +38,12 @@ paths:
         500:
           $ref: '#/components/responses/ServerError'
 
-  /user:
+  /progress:
     post: # 
       summary: Create a new progress report
       description: Todo
       tags: # put this operation into the users tag grouping
-        - progress-all
+        - progress
       security:
         - BearerAuth
       operationId: createProgressAccount # 9
@@ -66,13 +66,13 @@ paths:
       summary: Retrieve a progress report by ID
       description: Todo
       tags: # put this operation into the users tag grouping
-        - users
+        - progress
       security:
         - BearerAuth
       operationId: getProgressByID # 9
       # description:  Issue # 3
       parameters:
-        - name: id # same id as in user id
+        - name: id # same id as in progress report id
           in: path  # where to find the parameter
           description: Progress Report ID
           required: true
@@ -93,7 +93,7 @@ paths:
       summary: Update a progress report by ID
       description: Todo
       tags: # put this operation into the users tag grouping
-        - progress-all
+        - progress
       security:
         - BearerAuth
       operationId: updateProgressByID # 9
@@ -101,7 +101,7 @@ paths:
         $ref: '#/components/requestBody/progressBody'
 
       parameters:
-        - name: id # same id as in user id
+        - name: id # same id as in progress report id
           in: path  # where to find the parameter
           description: Progress Report ID
           required: true
@@ -125,12 +125,12 @@ paths:
       summary: Delete a progress report by ID
       description: Todo
       tags: # put this operation into the users tag grouping
-        - progress-all
+        - progress
       security:
         - BearerAuth
       operationId: deleteProgressByID # 9
       parameters:
-        - name: id # same id as in user id
+        - name: id # same id as in progress report id
           in: path  # where to find the parameter
           description: Progress Report ID
           required: true
@@ -149,13 +149,81 @@ paths:
 
 components:
   schemas:
-    requestBody:
+    progress:
       required:    
         - id
         - dateProgress
         - headCircumference
         - height
-        - weight 
+        - weight
+        - patient
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        dateProgress:
+          type: string
+          format: date
+          example: '01/01/1765'
+        headCircumference:
+          type: number
+          format: double
+          example: 14.75
+        height:
+          type: number
+          format: double
+          example: 178.01
+        weight:
+          type: number
+          format: double
+          example: 76.2
+        patient:
+          $ref: '#/components/schemas/patient'
+    patient:
+      required:    
+        - id  
+        - firstName
+        - lastName 
+        - dateBirth               
+        - gender
+        - phoneNumber
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        firstName:
+          type: string
+          minLength: 3
+          example: 'James'
+        lastName:
+          type: string
+          minLength: 3
+          example: 'Hemings'
+        dob:
+          type: string
+          format: date
+          example: 01/01/1765
+        gender:
+          type: string
+          example: M
+          enum:
+            - M
+            - F
+        phoneNumber:
+          type: number
+          forat: int32
+          example: 555-123-4567
+    requestBody:
+      required:    
+        - dateProgress
+        - headCircumference
+        - height
+        - weight
+        - patient
       type: object
       properties:
         dateProgress:
@@ -174,6 +242,8 @@ components:
           type: number
           format: double
           example: 76.2
+        patient:
+          $ref: '#/components/schemas/patient'
                 
     body_response_error: # 8
       required:
@@ -189,29 +259,10 @@ components:
         message:
           type: string
           example: message_to_show_from_server
-      # being 'user'
-    user: # 5
-      required:
-        - id
-        - email
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
-        email:
-          type: string
-          format: email
-          # for validating email; standard is JS
-          # https://www.w3resource.com/javascript/form/email-validation.php
-          pattern: ' /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/'
-          minLength: 10
-          example: 'james.hemings@piecemeal.io'
   
-  requestBody:
-    userBody:
-      description: User JSON object required
+  requestBody:      
+    progressBody:
+      description: Progress JSON object required
       content:
         application/json:
           schema: 
@@ -236,20 +287,20 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/user'
+            $ref: '#/components/schemas/progress'
     Success:
       description: Ok # same as "status message in spec"
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/user'
+            $ref: '#/components/schemas/progress'
     Created:
       description: Created # same as "status message in spec"
       content:
         application/json:
           schema:
             # this refers to user schema
-            $ref: '#/components/schemas/user'
+            $ref: '#/components/schemas/progress'
     
     SuccessGetAll:
       description: Ok # same as "status message in spec"
@@ -261,7 +312,7 @@ components:
               oneOf:
               # this refers to user schema
                 # - $ref: '#/components/schemas/user'
-                - $ref: '#/components/schemas/user'
+                - $ref: '#/components/schemas/progress'
     Unauthorized: #7
       description: Unuathorized
       content:
