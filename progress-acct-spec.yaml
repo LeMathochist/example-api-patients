@@ -148,7 +148,7 @@ paths:
 
 components:
   schemas:
-    zzzzzzzzzprogress:
+    progress:
       required:    
         - id
         - dateProgress
