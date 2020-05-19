@@ -17,50 +17,7 @@ tags: #5a
     description: Progress Account
 
 paths:
-  /progress-all:
-    get: # 2
-      summary: Retrieve all progress-reports
-      description: Todo
-      tags: # put this operation into the progress-all tag grouping
-        - progress-all
-      security:
-        - BearerAuth
-      operationId: getAllProgress # 9
-      # description:  Issue # 3
-
-      responses: # 3
-        200:    # status code
-          $ref: '#/components/responses/SuccessGetAll'
-          # Not create this. 
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        500:
-          $ref: '#/components/responses/ServerError'
-
-  /progress:
-    post: # 
-      summary: Create a new progress report
-      description: Todo
-      tags: # put this operation into the users tag grouping
-        - progress
-      security:
-        - BearerAuth
-      operationId: createProgressAccount # 9
-      requestBody:
-        $ref: '#/components/requestBody/progressBody'
-
-      responses: # 3
-        201:    # status code
-          $ref: '#/components/responses/Created' # Todo: Make Created schema
-          # Not create this. 
-        400:
-          $ref: '#/components/responses/BadRequest' # Todo: Make Created schema
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        500:
-          $ref: '#/components/responses/ServerError'
-
-  /progress/{id}:
+  /patient/{id}/progress:
     get:
       summary: Retrieve a progress report by ID
       description: Todo
