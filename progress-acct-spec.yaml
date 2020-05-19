@@ -1,19 +1,18 @@
 # progress-acct-spec.yaml
 
-
 openapi: 3.0.0
 info:
   title: Progress-Account # 0
-  description: Progress Account API specification is an outline of all functionality that allows a progress to maintain an account. 
+  description: Progress Account API specification is an outline of all functionality that allows a progress to maintain an account.
   version: 0.1.0
 servers:
-# the dash '-' indicates an array
+  # the dash '-' indicates an array
   - url: http://localhost:8080/v1 # 1
     description: Developer Server
   - url: http://localhost/v1
     description: Production Server
 tags: #5a
-# set the grouping of operations
+  # set the grouping of operations
   - name: progress-all
     description: Progress Account
 
@@ -30,16 +29,16 @@ paths:
       # description:  Issue # 3
 
       responses: # 3
-        200:    # status code
-          $ref: '#/components/responses/SuccessGetAll'
-          # Not create this. 
+        200: # status code
+          $ref: "#/components/responses/SuccessGetAll"
+          # Not create this.
         401:
-          $ref: '#/components/responses/Unauthorized'
+          $ref: "#/components/responses/Unauthorized"
         500:
-          $ref: '#/components/responses/ServerError'
+          $ref: "#/components/responses/ServerError"
 
   /progress:
-    post: # 
+    post: #
       summary: Create a new progress report
       description: Todo
       tags: # put this operation into the progress reports tag grouping
@@ -48,18 +47,18 @@ paths:
         - BearerAuth
       operationId: createProgressAccount # 9
       requestBody:
-        $ref: '#/components/requestBody/progressBody'
+        $ref: "#/components/requestBody/progressBody"
 
       responses: # 3
-        201:    # status code
-          $ref: '#/components/responses/Created' # Todo: Make Created schema
-          # Not create this. 
+        201: # status code
+          $ref: "#/components/responses/Created" # Todo: Make Created schema
+          # Not create this.
         400:
-          $ref: '#/components/responses/BadRequest' # Todo: Make Created schema
+          $ref: "#/components/responses/BadRequest" # Todo: Make Created schema
         401:
-          $ref: '#/components/responses/Unauthorized'
+          $ref: "#/components/responses/Unauthorized"
         500:
-          $ref: '#/components/responses/ServerError'
+          $ref: "#/components/responses/ServerError"
 
   /progress/{id}:
     get:
@@ -69,26 +68,25 @@ paths:
         - progress
       security:
         - BearerAuth
-      operationId: getProgressByID # 9
-      # description:  Issue # 3
+      operationId: getProgressByID
       parameters:
         - name: id # same id as in progress report id
-          in: path  # where to find the parameter
+          in: path # where to find the parameter
           description: Progress Report ID
           required: true
           schema:
             type: integer
             format: int64
       responses: # 3
-        200:    # status code
-          $ref: '#/components/responses/Success'
-          # Not create this. 
+        200: # status code
+          $ref: "#/components/responses/Success"
+          # Not create this.
         401:
-          $ref: '#/components/responses/Unauthorized'
+          $ref: "#/components/responses/Unauthorized"
         404:
-          $ref: '#/components/responses/NotFound'
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: '#/components/responses/ServerError'
+          $ref: "#/components/responses/ServerError"
     put:
       summary: Update a progress report by ID
       description: Todo
@@ -98,28 +96,28 @@ paths:
         - BearerAuth
       operationId: updateProgressByID # 9
       requestBody:
-        $ref: '#/components/requestBody/progressBody'
+        $ref: "#/components/requestBody/progressBody"
 
       parameters:
         - name: id # same id as in progress report id
-          in: path  # where to find the parameter
+          in: path # where to find the parameter
           description: Progress Report ID
           required: true
           schema:
             type: integer
             format: int64
       responses: # 3
-        202:    # status code
-          $ref: '#/components/responses/Accepted'
-          # Not create this. 
+        202: # status code
+          $ref: "#/components/responses/Accepted"
+          # Not create this.
         400: # bc have request body definitions
-          $ref: '#/components/responses/BadRequest'
+          $ref: "#/components/responses/BadRequest"
         401:
-          $ref: '#/components/responses/Unauthorized'
+          $ref: "#/components/responses/Unauthorized"
         404:
-          $ref: '#/components/responses/NotFound'
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: '#/components/responses/ServerError'
+          $ref: "#/components/responses/ServerError"
     delete:
       # copy the 'put' and change it
       summary: Delete a progress report by ID
@@ -131,26 +129,26 @@ paths:
       operationId: deleteProgressByID # 9
       parameters:
         - name: id # same id as in progress report id
-          in: path  # where to find the parameter
+          in: path # where to find the parameter
           description: Progress Report ID
           required: true
           schema:
             type: integer
             format: int64
       responses: # 3
-        204:    # status code
-          description: No content  # no need for a schema!
+        204: # status code
+          description: No content # no need for a schema!
         401:
-          $ref: '#/components/responses/Unauthorized'
+          $ref: "#/components/responses/Unauthorized"
         404:
-          $ref: '#/components/responses/NotFound'
+          $ref: "#/components/responses/NotFound"
         500:
-          $ref: '#/components/responses/ServerError'
+          $ref: "#/components/responses/ServerError"
 
 components:
   schemas:
     progress:
-      required:    
+      required:
         - id
         - dateProgress
         - headCircumference
@@ -166,7 +164,7 @@ components:
         dateProgress:
           type: string
           format: date
-          example: '01/01/1765'
+          example: "01/01/1765"
         headCircumference:
           type: number
           format: double
@@ -180,13 +178,13 @@ components:
           format: double
           example: 76.2
         patient:
-          $ref: '#/components/schemas/patient'
+          $ref: "#/components/schemas/patient"
     patient:
-      required:    
-        - id  
+      required:
+        - id
         - firstName
-        - lastName 
-        - dateBirth               
+        - lastName
+        - dateBirth
         - gender
         - phoneNumber
       type: object
@@ -198,11 +196,11 @@ components:
         firstName:
           type: string
           minLength: 3
-          example: 'James'
+          example: "James"
         lastName:
           type: string
           minLength: 3
-          example: 'Hemings'
+          example: "Hemings"
         dob:
           type: string
           format: date
@@ -218,7 +216,7 @@ components:
           forat: int32
           example: 555-123-4567
     requestBody:
-      required:    
+      required:
         - dateProgress
         - headCircumference
         - height
@@ -229,7 +227,7 @@ components:
         dateProgress:
           type: string
           format: date
-          example: '01/01/1765'
+          example: "01/01/1765"
         headCircumference:
           type: number
           format: double
@@ -243,14 +241,13 @@ components:
           format: double
           example: 76.2
         patient:
-          $ref: '#/components/schemas/patient'
-                
+          $ref: "#/components/schemas/patient"
+
     body_response_error: # 8
       required:
         - code_error
         - message
-      type:
-        object
+      type: object
       properties:
         code_error:
           type: integer
@@ -259,15 +256,15 @@ components:
         message:
           type: string
           example: message_to_show_from_server
-  
-  requestBody:      
+
+  requestBody:
     progressBody:
       description: Progress JSON object required
       content:
         application/json:
-          schema: 
-            $ref: '#/components/schemas/requestBody'
-  
+          schema:
+            $ref: "#/components/schemas/requestBody"
+
   responses: # 6
     NotFound:
       BadRequest:
@@ -275,33 +272,33 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/body_response_error'
+            $ref: "#/components/schemas/body_response_error"
     BadRequest:
       description: Bad request
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/body_response_error'
+            $ref: "#/components/schemas/body_response_error"
     Accepted:
       description: Accepted # same as "status message in spec"
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/progress'
+            $ref: "#/components/schemas/progress"
     Success:
       description: Ok # same as "status message in spec"
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/progress'
+            $ref: "#/components/schemas/progress"
     Created:
       description: Created # same as "status message in spec"
       content:
         application/json:
           schema:
             # this refers to progress schema
-            $ref: '#/components/schemas/progress'
-    
+            $ref: "#/components/schemas/progress"
+
     SuccessGetAll:
       description: Ok # same as "status message in spec"
       content:
@@ -310,21 +307,21 @@ components:
             type: array # to return an array
             items:
               oneOf:
-              # this refers to progress schema
+                # this refers to progress schema
                 # - $ref: '#/components/schemas/progress'
-                - $ref: '#/components/schemas/progress'
+                - $ref: "#/components/schemas/progress"
     Unauthorized: #7
       description: Unuathorized
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/body_response_error'
-    ServerError: #8 
+            $ref: "#/components/schemas/body_response_error"
+    ServerError: #8
       description: Server error
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/body_response_error'
+            $ref: "#/components/schemas/body_response_error"
   securitySchemes:
     BearerAuth:
       type: http
