@@ -3,8 +3,8 @@
 
 openapi: 3.0.0
 info:
-  title: Report-Patient-Progress
-  description: Report Progress API specification outlines all that allows patient progress data to be accessed and retrieved.
+  title: User-Authentication
+  description: Report Progress API specification outlines all that allows user to log in to their account
   version: 0.1.0
 servers:
 # the dash '-' indicates an array
@@ -14,33 +14,25 @@ servers:
     description: Production Server
 tags: #5a
 # set the grouping of operations
-  - name: report-progress
-    description: Progress Account
+  - name: OAuth2
+    description: User Authentication
 
 paths:
-  /patient/{id}/progress:
-    get:
-      summary: Retrieve all progress-reports by patient ID
+  /login:
+    post:
+      summary: Authenticate User
       description: Todo
       tags:
-        - report-progress
-      security:
-        - BearerAuth
-      operationId: getProgressReportsByPatientID
-      parameters:
-        - name: id # same id as in progress report id
-          in: path  # where to find the parameter
-          description:  ID
-          required: true
-          schema:
-            type: integer
-            format: int64
+        - OAuth2
+      operationId: userLogin
+      requestBody:
+        $ref: '#/components/requestBody/userBody'
       responses: # 3
         200:    # status code
           $ref: '#/components/responses/Success'
           # Not create this. 
-        401:
-          $ref: '#/components/responses/Unauthorized'
+        400:
+          $ref: '#/components/responses/BadRequest'
         404:
           $ref: '#/components/responses/NotFound'
         500:
@@ -48,74 +40,53 @@ paths:
 
 components:
   schemas:
-    progress:
-      required:    
-        - id
-        - dateProgress
-        - headCircumference
-        - height
-        - weight
-        - patient
-      type: object
+    tokenBody:
+      required:
+        - scope 
+        - expiresIn
+        - refreshToken
+        - accessToken
+        - developerEmail
       properties:
-        id:
+        scope:
+          type: string
+          example: 'read, write'
+        expiresIn:
           type: integer
           format: int64
-          example: 1
-        dateProgress:
+          example: 3600
+        refreshToken:
           type: string
-          format: date
-          example: '01/01/1765'
-        headCircumference:
-          type: number
-          format: double
-          example: 14.75
-        height:
-          type: number
-          format: double
-          example: 178.01
-        weight:
-          type: number
-          format: double
-          example: 76.2
-        patient:
-          $ref: '#/components/schemas/patient'
-    patient:
+          format: byte
+          example: kkj5h3kj4h53jkh453ljk4h3kj
+        accessToken:
+          type: string
+          format: byte
+          example: kkj5h3kj4h53jkh453ljk4h3kj
+        developerEmail:
+          type: string
+          format: email
+          example: 'james.hemings@piecemeal.io'
+        
+    requestBody:
       required:    
-        - id  
-        - firstName
-        - lastName 
-        - dateBirth               
-        - gender
-        - phoneNumber
+        - email
+        - password
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
-        firstName:
+        email:
           type: string
-          minLength: 3
-          example: 'James'
-        lastName:
+          format: email
+          # for validating email; standard is JS
+          # https://www.w3resource.com/javascript/form/email-validation.php
+          pattern: ' /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/'
+          minLength: 10
+          example: 'james.hemings@piecemeal.io'
+        password:
           type: string
-          minLength: 3
-          example: 'Hemings'
-        dob:
-          type: string
-          format: date
-          example: 01/01/1765
-        gender:
-          type: string
-          example: M
-          enum:
-            - M
-            - F
-        phoneNumber:
-          type: number
-          forat: int32
-          example: 555-123-4567
+          format: password
+          minLength: 8
+          example: 'k5lk3&0d'
 
     body_response_error: # 8
       required:
@@ -131,7 +102,14 @@ components:
         message:
           type: string
           example: message_to_show_from_server
-  
+
+  requestBody:
+    userBody:
+      description: User JSON object required
+      content:
+        application/json:
+          schema: 
+            $ref: '#/components/schemas/requestBody'
   responses: # 6
     NotFound:
       BadRequest:
@@ -145,14 +123,9 @@ components:
       content:
         application/json:
           schema:
-            type: array # to return an array
-            items:
-              oneOf:
-              # this refers to user schema
-                # - $ref: '#/components/schemas/user'
-                - $ref: '#/components/schemas/progress'
-    Unauthorized: #7
-      description: Unuathorized
+            $ref: '#/components/schemas/tokenBody'
+    BadRequest:
+      description: Bad request
       content:
         application/json:
           schema:
@@ -163,8 +136,3 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/body_response_error'
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
