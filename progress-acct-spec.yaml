@@ -1,0 +1,281 @@
+# progress-acct-spec.yaml
+
+
+openapi: 3.0.0
+info:
+  title: User-Account # 0
+  description: User Account API specification is an outline of all functionality that allows a user to maintain an account. 
+  version: 0.1.0
+servers:
+# the dash '-' indicates an array
+  - url: http://localhost:8080/v1 # 1
+    description: Developer Server
+  - url: http://localhost/v1
+    description: Production Server
+tags: #5a
+# set the grouping of operations
+  - name: progress-all
+    description: Progress Account
+
+paths:
+  /progress-all:
+    get: # 2
+      summary: Retrieve all progress-reports
+      description: Todo
+      tags: # put this operation into the users tag grouping
+        - progress-all
+      security:
+        - BearerAuth
+      operationId: getAllProgress # 9
+      # description:  Issue # 3
+
+      responses: # 3
+        200:    # status code
+          $ref: '#/components/responses/SuccessGetAll'
+          # Not create this. 
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /user:
+    post: # 
+      summary: Create a new progress report
+      description: Todo
+      tags: # put this operation into the users tag grouping
+        - progress-all
+      security:
+        - BearerAuth
+      operationId: createProgressAccount # 9
+      requestBody:
+        $ref: '#/components/requestBody/progressBody'
+
+      responses: # 3
+        201:    # status code
+          $ref: '#/components/responses/Created' # Todo: Make Created schema
+          # Not create this. 
+        400:
+          $ref: '#/components/responses/BadRequest' # Todo: Make Created schema
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /progress/{id}:
+    get:
+      summary: Retrieve a progress report by ID
+      description: Todo
+      tags: # put this operation into the users tag grouping
+        - users
+      security:
+        - BearerAuth
+      operationId: getProgressByID # 9
+      # description:  Issue # 3
+      parameters:
+        - name: id # same id as in user id
+          in: path  # where to find the parameter
+          description: Progress Report ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses: # 3
+        200:    # status code
+          $ref: '#/components/responses/Success'
+          # Not create this. 
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    put:
+      summary: Update a progress report by ID
+      description: Todo
+      tags: # put this operation into the users tag grouping
+        - progress-all
+      security:
+        - BearerAuth
+      operationId: updateProgressByID # 9
+      requestBody:
+        $ref: '#/components/requestBody/progressBody'
+
+      parameters:
+        - name: id # same id as in user id
+          in: path  # where to find the parameter
+          description: Progress Report ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses: # 3
+        202:    # status code
+          $ref: '#/components/responses/Accepted'
+          # Not create this. 
+        400: # bc have request body definitions
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+    delete:
+      # copy the 'put' and change it
+      summary: Delete a progress report by ID
+      description: Todo
+      tags: # put this operation into the users tag grouping
+        - progress-all
+      security:
+        - BearerAuth
+      operationId: deleteProgressByID # 9
+      parameters:
+        - name: id # same id as in user id
+          in: path  # where to find the parameter
+          description: Progress Report ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses: # 3
+        204:    # status code
+          description: No content  # no need for a schema!
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+    requestBody:
+      required:    
+        - id
+        - dateProgress
+        - headCircumference
+        - height
+        - weight 
+      type: object
+      properties:
+        dateProgress:
+          type: string
+          format: date
+          example: '01/01/1765'
+        headCircumference:
+          type: number
+          format: double
+          example: 14.75
+        height:
+          type: number
+          format: double
+          example: 178.01
+        weight:
+          type: number
+          format: double
+          example: 76.2
+                
+    body_response_error: # 8
+      required:
+        - code_error
+        - message
+      type:
+        object
+      properties:
+        code_error:
+          type: integer
+          format: int64
+          example: 123
+        message:
+          type: string
+          example: message_to_show_from_server
+      # being 'user'
+    user: # 5
+      required:
+        - id
+        - email
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        email:
+          type: string
+          format: email
+          # for validating email; standard is JS
+          # https://www.w3resource.com/javascript/form/email-validation.php
+          pattern: ' /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/'
+          minLength: 10
+          example: 'james.hemings@piecemeal.io'
+  
+  requestBody:
+    userBody:
+      description: User JSON object required
+      content:
+        application/json:
+          schema: 
+            $ref: '#/components/schemas/requestBody'
+  
+  responses: # 6
+    NotFound:
+      BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
+    Accepted:
+      description: Accepted # same as "status message in spec"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/user'
+    Success:
+      description: Ok # same as "status message in spec"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/user'
+    Created:
+      description: Created # same as "status message in spec"
+      content:
+        application/json:
+          schema:
+            # this refers to user schema
+            $ref: '#/components/schemas/user'
+    
+    SuccessGetAll:
+      description: Ok # same as "status message in spec"
+      content:
+        application/json:
+          schema:
+            type: array # to return an array
+            items:
+              oneOf:
+              # this refers to user schema
+                # - $ref: '#/components/schemas/user'
+                - $ref: '#/components/schemas/user'
+    Unauthorized: #7
+      description: Unuathorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
+    ServerError: #8 
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
