@@ -116,33 +116,6 @@ components:
           type: number
           forat: int32
           example: 555-123-4567
-    requestBody:
-      required:    
-        - dateProgress
-        - headCircumference
-        - height
-        - weight
-        - patient
-      type: object
-      properties:
-        dateProgress:
-          type: string
-          format: date
-          example: '01/01/1765'
-        headCircumference:
-          type: number
-          format: double
-          example: 14.75
-        height:
-          type: number
-          format: double
-          example: 178.01
-        weight:
-          type: number
-          format: double
-          example: 76.2
-        patient:
-          $ref: '#/components/schemas/patient'
                 
     body_response_error: # 8
       required:
@@ -159,14 +132,6 @@ components:
           type: string
           example: message_to_show_from_server
   
-  requestBody:      
-    progressBody:
-      description: Progress JSON object required
-      content:
-        application/json:
-          schema: 
-            $ref: '#/components/schemas/requestBody'
-  
   responses: # 6
     NotFound:
       BadRequest:
@@ -175,33 +140,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/body_response_error'
-    BadRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/body_response_error'
-    Accepted:
-      description: Accepted # same as "status message in spec"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/progress'
     Success:
-      description: Ok # same as "status message in spec"
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/progress'
-    Created:
-      description: Created # same as "status message in spec"
-      content:
-        application/json:
-          schema:
-            # this refers to user schema
-            $ref: '#/components/schemas/progress'
-    
-    SuccessGetAll:
       description: Ok # same as "status message in spec"
       content:
         application/json:
