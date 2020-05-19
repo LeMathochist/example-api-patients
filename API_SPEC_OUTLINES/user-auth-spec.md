@@ -37,8 +37,8 @@
 
 ### Response body definitions
 
-- Status code: 200
-- Status messages: OK
+- Status code: 201
+- Status messages: Accepted
 - Content type: application/json
 - Schema: scope, expires_in, refresh_token, access_token, developer_email
 
