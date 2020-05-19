@@ -47,7 +47,7 @@ paths:
 
 components:
   schemas:
-    zzzzzzzzzprogress:
+    progress:
       required:    
         - id
         - dateProgress
@@ -115,7 +115,7 @@ components:
           type: number
           forat: int32
           example: 555-123-4567
-                
+
     body_response_error: # 8
       required:
         - code_error
