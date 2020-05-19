@@ -13,24 +13,23 @@ servers:
     description: Production Server
 tags: #5a
 # set the grouping of operations
-  - name: progress-all
+  - name: report-progress
     description: Progress Account
 
 paths:
   /patient/{id}/progress:
     get:
-      summary: Retrieve a progress report by ID
+      summary: Retrieve all progress-reports by patient ID
       description: Todo
-      tags: # put this operation into the users tag grouping
-        - progress
+      tags:
+        - report-progress
       security:
         - BearerAuth
-      operationId: getProgressByID # 9
-      # description:  Issue # 3
+      operationId: getProgressReportsByPatientID
       parameters:
         - name: id # same id as in progress report id
           in: path  # where to find the parameter
-          description: Progress Report ID
+          description:  ID
           required: true
           schema:
             type: integer
