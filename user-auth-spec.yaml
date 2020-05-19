@@ -110,16 +110,16 @@ components:
         application/json:
           schema: 
             $ref: '#/components/schemas/requestBody'
-  responses: # 6
+
+  responses:
     NotFound:
-      BadRequest:
-      description: Bad request
+      description: Not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/body_response_error'
     Success:
-      description: Ok # same as "status message in spec"
+      description: Ok
       content:
         application/json:
           schema:
@@ -130,7 +130,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/body_response_error'
-    ServerError: #8 
+    ServerError:
       description: Server error
       content:
         application/json:
