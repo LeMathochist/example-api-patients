@@ -2,8 +2,8 @@
 
 openapi: 3.0.0
 info:
-  title: Progress-Account # 0
-  description: Progress Account API specification is an outline of all functionality that allows a progress to maintain an account. 
+  title: Report-Patient-Progress
+  description: Report Progress API specification outlines all that allows patient progress data to be accessed and retrieved.
   version: 0.1.0
 servers:
 # the dash '-' indicates an array
