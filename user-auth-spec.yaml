@@ -1,0 +1,170 @@
+# user-auth-spec.yaml
+
+
+openapi: 3.0.0
+info:
+  title: Report-Patient-Progress
+  description: Report Progress API specification outlines all that allows patient progress data to be accessed and retrieved.
+  version: 0.1.0
+servers:
+# the dash '-' indicates an array
+  - url: http://localhost:8080/v1 # 1
+    description: Developer Server
+  - url: http://localhost/v1
+    description: Production Server
+tags: #5a
+# set the grouping of operations
+  - name: report-progress
+    description: Progress Account
+
+paths:
+  /patient/{id}/progress:
+    get:
+      summary: Retrieve all progress-reports by patient ID
+      description: Todo
+      tags:
+        - report-progress
+      security:
+        - BearerAuth
+      operationId: getProgressReportsByPatientID
+      parameters:
+        - name: id # same id as in progress report id
+          in: path  # where to find the parameter
+          description:  ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses: # 3
+        200:    # status code
+          $ref: '#/components/responses/Success'
+          # Not create this. 
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+    progress:
+      required:    
+        - id
+        - dateProgress
+        - headCircumference
+        - height
+        - weight
+        - patient
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        dateProgress:
+          type: string
+          format: date
+          example: '01/01/1765'
+        headCircumference:
+          type: number
+          format: double
+          example: 14.75
+        height:
+          type: number
+          format: double
+          example: 178.01
+        weight:
+          type: number
+          format: double
+          example: 76.2
+        patient:
+          $ref: '#/components/schemas/patient'
+    patient:
+      required:    
+        - id  
+        - firstName
+        - lastName 
+        - dateBirth               
+        - gender
+        - phoneNumber
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        firstName:
+          type: string
+          minLength: 3
+          example: 'James'
+        lastName:
+          type: string
+          minLength: 3
+          example: 'Hemings'
+        dob:
+          type: string
+          format: date
+          example: 01/01/1765
+        gender:
+          type: string
+          example: M
+          enum:
+            - M
+            - F
+        phoneNumber:
+          type: number
+          forat: int32
+          example: 555-123-4567
+
+    body_response_error: # 8
+      required:
+        - code_error
+        - message
+      type:
+        object
+      properties:
+        code_error:
+          type: integer
+          format: int64
+          example: 123
+        message:
+          type: string
+          example: message_to_show_from_server
+  
+  responses: # 6
+    NotFound:
+      BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
+    Success:
+      description: Ok # same as "status message in spec"
+      content:
+        application/json:
+          schema:
+            type: array # to return an array
+            items:
+              oneOf:
+              # this refers to user schema
+                # - $ref: '#/components/schemas/user'
+                - $ref: '#/components/schemas/progress'
+    Unauthorized: #7
+      description: Unuathorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
+    ServerError: #8 
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/body_response_error'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
