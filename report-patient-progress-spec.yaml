@@ -45,63 +45,6 @@ paths:
           $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/ServerError'
-    put:
-      summary: Update a progress report by ID
-      description: Todo
-      tags: # put this operation into the users tag grouping
-        - progress
-      security:
-        - BearerAuth
-      operationId: updateProgressByID # 9
-      requestBody:
-        $ref: '#/components/requestBody/progressBody'
-
-      parameters:
-        - name: id # same id as in progress report id
-          in: path  # where to find the parameter
-          description: Progress Report ID
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses: # 3
-        202:    # status code
-          $ref: '#/components/responses/Accepted'
-          # Not create this. 
-        400: # bc have request body definitions
-          $ref: '#/components/responses/BadRequest'
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/ServerError'
-    delete:
-      # copy the 'put' and change it
-      summary: Delete a progress report by ID
-      description: Todo
-      tags: # put this operation into the users tag grouping
-        - progress
-      security:
-        - BearerAuth
-      operationId: deleteProgressByID # 9
-      parameters:
-        - name: id # same id as in progress report id
-          in: path  # where to find the parameter
-          description: Progress Report ID
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses: # 3
-        204:    # status code
-          description: No content  # no need for a schema!
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/ServerError'
 
 components:
   schemas:
